@@ -2,7 +2,7 @@
 
 # OpenDxBench: Evaluating Multimodal Diagnostic Reasoning in Clinical Practice
 
-[![Static Badge](https://img.shields.io/badge/arxiv-ff0000?style=for-the-badge&logo=arxiv&labelColor=000)](https://arxiv.org/)  [![Static Badge](https://img.shields.io/badge/huggingface-fcd022?style=for-the-badge&logo=huggingface&logoColor=000)](https://huggingface.co/)  [![Static Badge](https://img.shields.io/badge/leaderboard-steelblue?style=for-the-badge&logo=speedtest&logoColor=ffffff)](https://opendxbench.github.io/leaderboard.html)
+[![Static Badge](https://img.shields.io/badge/arxiv-ff0000?style=for-the-badge&logo=arxiv&labelColor=000)](https://arxiv.org/)  [![Static Badge](https://img.shields.io/badge/huggingface-fcd022?style=for-the-badge&logo=huggingface&logoColor=000)](https://huggingface.co/datasets/thomasweiX/OpenDxBench)  [![Static Badge](https://img.shields.io/badge/leaderboard-steelblue?style=for-the-badge&logo=speedtest&logoColor=ffffff)](https://opendxbench.github.io/leaderboard.html)
 
 </div>
 
@@ -15,29 +15,29 @@
 </p>
 
 ## Usage
-1. Clone the Repository:
+### 1. Clone the Repository:
 
 ```
 git clone https://github.com/thomaswei-cn/OpenDxBench.git
 cd OpenDxBench/eval
 ```
 
-2. Install Dependencies:
+### 2. Install Dependencies:
 
 ```
 pip install -r requirements.txt
 ```
 
-3. Download the Dataset:
+### 3. Download the Dataset:
 ```
 huggingface-cli download <datastet>
 ```
 
-4. Sign up for ICD-API:
+### 4. Sign up for ICD-API:
 Please sign up for an account at [ICD API official website](https://icd.who.int/icdapi) to obtain CLIENT_ID and CLIENT_SECRET. 
 Then, copy your CLIENT_ID and CLIENT_SECRET to `config.py`.
 
-5. Inference and evaluation:
+### 5. Inference and evaluation:
 
 ```
 python run_pipeline.py \
@@ -49,12 +49,25 @@ python run_pipeline.py \
 --max_retries 3 \
 --api_key your_openai_api_key 
 ```
-6. View results:
-The results are stored in `res_dir/summary`, containing two Excel files corresponding to the top-5 and top-10 evaluation settings.
-In each file, `icd/sim/avg` denote the ICD-11 accuracy, semantic accuracy, and their average, respectively.
-`primary/complete` indicate the two evaluation modes, focusing on primary diagnosis only or complete diagnosis coverage.
-`n_all` refers to the total number of cases, while `valid_preds_count` denotes the number of cases with valid predictions (since models may sometimes fail to return responses that satisfy the prompt requirements).
-`valid_standardized_preds_count` represents the number of cases with valid predictions that could be successfully mapped to ICD-11 codes.
+### 6. View Results
+
+The evaluation results are stored in **`res_dir/summary`**, containing two Excel files:  
+
+- **Top-5 evaluation**
+- **Top-10 evaluation**
+
+The meaning of the column names in each file is as follows:
+
+| Column                        | Description |
+|--------------------------------|-------------|
+| `icd`                          | ICD-11 accuracy |
+| `sim`                          | Semantic accuracy |
+| `avg`                          | Average of `icd` and `sim` |
+| `primary`                      | Evaluation based on **primary diagnosis** only |
+| `complete`                     | Evaluation requiring **complete diagnosis coverage** |
+| `n_all`                        | Total number of cases |
+| `valid_preds_count`            | Number of cases with valid predictions (models may sometimes fail to generate outputs that satisfy the prompt) |
+| `valid_standardized_preds_count` | Number of valid predictions successfully mapped to ICD-11 codes |
 ## Citation
 
 If you find our work helpful, please use the following citation.
